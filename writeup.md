@@ -25,10 +25,8 @@ The goals / steps of this project are the following:
 [image4]: ./Report_Images/GrayScale.png "Gray Scale"
 [image5]: ./Report_Images/Gray-Norm.png "Gray Scale & Standarization"
 [image6]: ./Report_Images/NewImages.png "Images from Internet"
-
-
-[image7]: ./examples/placeholder.png "Traffic Sign 4"
-[image8]: ./examples/placeholder.png "Traffic Sign 5"
+[image7]: ./Report_Images/NewImagesResult.png "Images from Internet"
+[image8]: ./Report_Images/top5.png "Top 5 Probabilities"
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
@@ -70,22 +68,24 @@ Bellow some an images of each class is shown to get an idea of what they look li
 
 ##### 1.1 Data Augmentation
 
-From the eploration of the data can be seen that the classes as unbalanced. Therefore it was decided to augmentate the training data set to balance the clases to ahve a minimum of 2000 images per clases.
+From the exploration of the data can be seen that the classes as unbalanced. Therefore it was decided to augmentate the training data set to balance the clases to have a minimum of 2000 images per clases.
 
 The augmentation procedure it's done by the method `generate_Image(images,images_to_generate)` based on [this](https://github.com/govinda007/Images/blob/master/augmentation.ipynb) project.
 
 Up to four different transformations can be applied to an images:
 
-1.- Random rotation between -20 deg and 20 deg.
-2.- Random noise.
-3.- Gaussian Blur with a kernel of 3.
-4.- Warp Shifting of a random distance from -5 to 5 pixels in the X and Y direction.
+1. Random rotation between -20 deg and 20 deg.
+2. Random noise.
+3. Gaussian Blur with a kernel of 3.
+4. Warp Shifting of a random distance from -5 to 5 pixels in the X and Y direction.
 
-The method `generate_Image(images,images_to_generate)` recieves as input the immages of the Class to be augmented and the nomber of images to be generated and the functionality is as follows:
-1.- The method iterates form `0` to `images_to_generate`. 
-2.- On each iteration a random images out of the set is chosen to be transformed.
-3.- A random number of transformation to apply on the image is chosen between `0` and  `4` (ammount of different transformation).
-4.- The transformations to be made are randomly choosen.
+
+The method `generate_Image(images,images_to_generate)` recieves as input the images of the Class to be augmented and the number of images to be generated, and the functionality is as follows:
+
+1. The method iterates form `0` to `images_to_generate`. 
+2. On each iteration a random images from the set is chosen to be transformed.
+3. A random number of transformation to be apply to the image is chosen. (between `0` and  `4`, [ammount of different transformation]).
+4. The transformations to be made are randomly choosen.
 
 After Augmentation the class Histograms looks as follows:
 
@@ -97,13 +97,9 @@ One obvious preprocessing step is to convert the color images into a more compac
 
 ![alt text][image4]
 
-After transforming the images to gray scale, these are statarized to have Zero mean and stander deviation of 1 using `pixel = (pixel - mean) / std`. Below is an example image after grayscale conversion and standarization:
+After transforming the images to gray scale, these are statarized to have Zero mean and standard deviation of 1 using `pixel = (pixel - mean) / std`. Below is an example image after grayscale conversion and standarization:
 
 ![alt text][image5]
-
-
-The difference between the original data set and the augmented data set is the following ... 
-
 
 #### 2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
 
@@ -134,10 +130,12 @@ To train the model, the softmax cross entropy was used as the cost function, and
 #### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
 My final model results were:
+
 * validation set accuracy of 96.6% 
 * test set accuracy of 93.4%
 
 If an iterative approach was chosen:
+
 * What was the first architecture that was tried and why was it chosen?
 
 The LeNet architecture was chosen because it was familiar to me and was designed to solve a similar classification problem using image data as input. 
@@ -181,39 +179,22 @@ Here are sixteen German traffic signs that where found on the web:
 
 ![alt text][image6]
 
-The first image might be difficult to classify because ...
-
+The images where chosen in groups, in order to be able to test how well th model worked. by choosing images of different speed limits the model needs to be able to diferentiate smaller features, the same happens for the two images of overtaking. 
 #### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
 Here are the results of the prediction:
 
-| Image			        |     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
+![alt text][image7]
 
-
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+The model was able to correctly guess 15 out of the 16 traffic signs, which gives an accuracy of 93.8%. This compares favorably to the accuracy on the test set of 93.4%
 
 #### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
+The code for making predictions on my final model is located in the 22th cell of the Ipython notebook.
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+The top 5 probabilities of each images are shown below.
 
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
-
-
-For the second image ... 
+![alt text][image8]
 
 ### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
 #### 1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
